@@ -5,12 +5,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eddiefisher/anime/internal/crowler"
+	"github.com/eddiefisher/anime/internal/crawler"
 	"github.com/eddiefisher/anime/internal/entity"
 )
 
 func Load() ([]entity.Anime, error) {
-	items, err := crowler.Crawler("https://v2.vost.pw/rss.xml")
+	items, err := crawler.Crawler("https://v2.vost.pw/rss.xml")
 	if err != nil {
 		return nil, err
 	}

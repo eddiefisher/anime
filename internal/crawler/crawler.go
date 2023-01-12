@@ -1,4 +1,4 @@
-package crowler
+package crawler
 
 import (
 	"encoding/xml"
