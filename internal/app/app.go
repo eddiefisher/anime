@@ -4,8 +4,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/eddiefisher/anime/internal/actions"
 	"github.com/eddiefisher/anime/internal/browser"
-	"github.com/eddiefisher/anime/internal/data"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -70,7 +70,7 @@ func New() {
 }
 
 func collectAnime(list *tview.List) {
-	animes, err := data.Load()
+	animes, err := actions.Load()
 	if err != nil {
 		errText.SetText(err.Error())
 		return
