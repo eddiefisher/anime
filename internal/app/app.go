@@ -25,6 +25,8 @@ func New() {
 	ar := appRender{
 		app:        app,
 		list:       list,
+		flex:       flex,
+		menu:       menu,
 		errText:    errText,
 		listRender: lr,
 	}

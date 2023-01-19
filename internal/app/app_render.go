@@ -11,23 +11,25 @@ const updateInterval = 30 * time.Minute
 
 type appRender struct {
 	app        *tview.Application
+	flex       *tview.Flex
 	list       *tview.List
+	menu       *tview.TextView
 	errText    *tview.TextView
 	listRender listRender
 }
 
 func (s *appRender) Render() {
-	flex.AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
+	s.flex.AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
 		AddItem(s.list, 0, 1, true).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexColumn).
-			AddItem(menu, 0, 1, false).AddItem(s.errText, 0, 1, false), 1, 1, false),
+			AddItem(s.menu, 0, 1, false).AddItem(s.errText, 0, 1, false), 1, 1, false),
 		0, 2, true)
 
-	flex.SetInputCapture(s.inputCapture)
+	s.flex.SetInputCapture(s.inputCapture)
 
 	go s.updateFunc()
 
-	if err := s.app.SetRoot(flex, true).EnableMouse(true).Run(); err != nil {
+	if err := s.app.SetRoot(s.flex, true).EnableMouse(true).Run(); err != nil {
 		panic(err)
 	}
 }

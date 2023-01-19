@@ -9,8 +9,10 @@ import (
 	"github.com/eddiefisher/anime/internal/entity"
 )
 
+const avostURL = "https://v2.vost.pw/rss.xml"
+
 func Load() ([]entity.Anime, error) {
-	items, err := crawler.Crawler("https://v2.vost.pw/rss.xml")
+	items, err := crawler.Crawler(avostURL)
 	if err != nil {
 		return nil, err
 	}

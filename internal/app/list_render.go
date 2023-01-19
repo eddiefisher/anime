@@ -20,19 +20,20 @@ type listRender struct {
 func (s *listRender) Render(list *tview.List) {
 	animes, err := actions.Load()
 	if err != nil {
-		errText.SetText(err.Error())
+		s.errText.SetText(err.Error())
+
 		return
 	}
 	s.animes = animes
 
 	s.list.SetTitle(" Anime ").SetBorder(true)
 	for _, anime := range s.animes {
-		s.renderItem(anime)
+		s.anime = anime
+		s.renderItem()
 	}
 }
 
-func (s *listRender) renderItem(anime entity.Anime) {
-	s.anime = anime
+func (s *listRender) renderItem() {
 	s.list.AddItem(s.mainText(), s.secondaryText(), 0, nil).
 		SetSecondaryTextColor(tcell.Color111).
 		SetHighlightFullLine(true).
