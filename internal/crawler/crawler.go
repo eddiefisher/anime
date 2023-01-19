@@ -64,19 +64,6 @@ func Crawler(address string) ([]Item, error) {
 	return rss.Channel.Items, nil
 }
 
-func WebCrawler() ([]Item, error) {
-	var items []Item
-	for _, value := range Address {
-		item, err := Crawler(value)
-		items = append(items, item...)
-
-		if err != nil {
-			return nil, errDecode
-		}
-	}
-	return items, nil
-}
-
 func request(address string) (io.ReadCloser, error) {
 	storage := memory.NewStorage()
 	content := storage.Get(address)

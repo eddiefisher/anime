@@ -10,10 +10,26 @@ import (
 const updateInterval = 30 * time.Minute
 
 type appRender struct {
-	app          *tview.Application
-	list         *tview.List
-	errText      *tview.TextView
-	collectAnime func(*tview.List)
+	app        *tview.Application
+	list       *tview.List
+	errText    *tview.TextView
+	listRender listRender
+}
+
+func (s *appRender) Render() {
+	flex.AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
+		AddItem(s.list, 0, 1, true).
+		AddItem(tview.NewFlex().SetDirection(tview.FlexColumn).
+			AddItem(menu, 0, 1, false).AddItem(s.errText, 0, 1, false), 1, 1, false),
+		0, 2, true)
+
+	flex.SetInputCapture(s.inputCapture)
+
+	go s.updateFunc()
+
+	if err := s.app.SetRoot(flex, true).EnableMouse(true).Run(); err != nil {
+		panic(err)
+	}
 }
 
 func (s *appRender) inputCapture(event *tcell.EventKey) *tcell.EventKey {
@@ -23,7 +39,7 @@ func (s *appRender) inputCapture(event *tcell.EventKey) *tcell.EventKey {
 	case tcell.KeyRune:
 		if event.Rune() == 'r' {
 			s.list.Clear()
-			s.collectAnime(s.list)
+			s.listRender.Render(s.list)
 		}
 	}
 
@@ -36,7 +52,7 @@ func (s *appRender) updateFunc() {
 		s.app.QueueUpdate(func() {
 			s.list.Clear()
 			s.errText.Clear()
-			s.collectAnime(s.list)
+			s.listRender.Render(s.list)
 			s.app.ForceDraw()
 		})
 	}
