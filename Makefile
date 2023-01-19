@@ -12,6 +12,10 @@ run:
 	ENVIRONMENT="dev" \
 	./build/$(PROJECTNAME)
 
+## packages_update: recursively update Go packages
+packages_update:
+	go get -u ./... && go mod tidy
+
 help: Makefile
 	@echo
 	@echo " Choose a command run in "$(PROJECTNAME)":"
